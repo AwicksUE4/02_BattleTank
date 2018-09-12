@@ -27,4 +27,10 @@ public:
 
 private:
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const; //const because it's not going to mutate any of the member functions of this class
+
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = .5f;
+	
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = .33333f;
 };
