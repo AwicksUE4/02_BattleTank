@@ -24,4 +24,7 @@ public:
 	virtual void PlayerTick(float DeltaTime) override;
 
 	void AimTowardsCrossHair(); // not sonst because it is going to change something about the player controller's state
+
+private:
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const; //const because it's not going to mutate any of the member functions of this class
 };
