@@ -20,4 +20,8 @@ public:
 	ATank * GetControlledTank() const; //we aren't going to change any future member variables (const)
 
 	virtual void BeginPlay() override; //ensure that this method exists up in the hierarchy
+
+	virtual void PlayerTick(float DeltaTime) override;
+
+	void AimTowardsCrossHair(); // not sonst because it is going to change something about the player controller's state
 };
