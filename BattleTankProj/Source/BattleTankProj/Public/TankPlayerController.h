@@ -18,5 +18,6 @@ class BATTLETANKPROJ_API ATankPlayerController : public APlayerController
 	
 public:
 	ATank * GetControlledTank() const; //we aren't going to change any future member variables (const)
-	
+
+	virtual void BeginPlay() override; //ensure that this method exists up in the hierarchy
 };
