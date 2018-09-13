@@ -67,8 +67,17 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
 
 	// "de-project" the screen position of the crosshair to a world direction
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+		UE_LOG(LogTemp, Warning, TEXT("Screen Look Direction: %s"), *LookDirection.ToString());
+
 	// line trace along the direction (look direction), and see what we hit
 	return true;
 }
 
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const 
+{
+	FVector CamWorldLoc;
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CamWorldLoc, LookDirection);
+}
 
