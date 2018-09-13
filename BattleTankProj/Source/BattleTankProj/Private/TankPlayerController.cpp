@@ -34,8 +34,6 @@ void ATankPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 	AimTowardsCrossHair();
-
-	UE_LOG(LogTemp, Warning, TEXT("I am ticking"));
 }
 
 void ATankPlayerController::AimTowardsCrossHair()
