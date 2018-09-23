@@ -2,12 +2,15 @@
 
 #pragma once
 
-#include "TankAimingComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h" // paste new classes above this
 
-class UTankBarrel; //forward declaration
+//forward declaration
+class UTankBarrel; 
+class UTankAimingComponent;
+class UTankTurret;
 
 UCLASS()
 class BATTLETANKPROJ_API ATank : public APawn
@@ -19,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup) // method we can call from blueprint
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
 
 protected: // can't be proviate because we will need to access it using a UProperty later
 	UTankAimingComponent * TankAimingComponent = nullptr;
@@ -34,7 +40,7 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; // TODO find sensible default starting value of 1000 m/s because units are centimeters
+	float LaunchSpeed = 4000; // 1000 m/s because units are centimeters
 
 	
 	
