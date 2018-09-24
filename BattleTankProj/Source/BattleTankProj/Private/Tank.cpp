@@ -21,6 +21,8 @@ ATank::ATank()
 
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
+	if (!TankAimingComponent) { return; }
+
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 
 	Barrel = BarrelToSet;
@@ -28,6 +30,8 @@ void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 
 void ATank::SetTurretReference(UTankTurret * TurretToSet)
 {
+	if (!TankAimingComponent) { return; }
+
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
@@ -67,6 +71,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) { return;
+	}
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 

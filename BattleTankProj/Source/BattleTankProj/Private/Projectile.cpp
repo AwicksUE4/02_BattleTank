@@ -31,7 +31,7 @@ void AProjectile::LaunchProjectile(float Speed)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Lauching projectile at speed %f"), Speed);
 
-	auto ForwardVec = this->GetActorForwardVector();
+	if (!ProjectileMovement) { return; }
 
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
