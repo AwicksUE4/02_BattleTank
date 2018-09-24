@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
+
 protected: // can't be proviate because we will need to access it using a UProperty later
 	UTankAimingComponent * TankAimingComponent = nullptr;
 	
@@ -41,7 +44,5 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000; // 1000 m/s because units are centimeters
-
-	
 	
 };
