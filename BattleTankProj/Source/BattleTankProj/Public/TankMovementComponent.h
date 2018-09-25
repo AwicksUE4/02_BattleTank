@@ -23,6 +23,9 @@ public:
 	//throw - control throw - how far forward or back the control is moved
 	void IntendMoveForward(float Throw);
 	
+	UFUNCTION(BlueprintCallable, Category = Input)
+	void IntendTurnRight(float Throw);
+	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet); //public because we need to call it from the blueprint
 	

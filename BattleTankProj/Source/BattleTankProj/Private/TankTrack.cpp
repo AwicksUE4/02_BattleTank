@@ -7,7 +7,6 @@
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	// TODO clamp actual throttle value so player can't overdrive
 	auto ForceApplied = GetForwardVector() * Throttle * MaxTrackDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	// want to add a force to the root component (which is the tank)
