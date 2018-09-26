@@ -8,6 +8,16 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	auto ControlledTank = Cast<ATank>(GetPawn());
+	if (!ControlledTank)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AIController not posessing tank"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Aicontroller is posessing %s"), *(ControlledTank->GetName()));
+	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
