@@ -31,9 +31,15 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	//no need to call super because we are completely rewriting the functionality of the method
-	auto TankName = GetOwner()->GetName();
-	
-	UE_LOG(LogTemp, Warning, TEXT("%s Move Velocity: %s"), *TankName, *MoveVelocity.ToString());
+
+	//our job is to tryin an come up with a movement scheme that means the tank goes forward in an appropriate speed depending on the difference between where the AI wants it to be facing and 
+	//where it is facing
+	//need to use a cosine function	
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal(); // unit vector in the direction the AI would like the tank to move	
+	auto ForwardThrow =  FVector::DotProduct(TankForward, AIForwardIntention);
+
+	IntendMoveForward(ForwardThrow);
 }
 
 
