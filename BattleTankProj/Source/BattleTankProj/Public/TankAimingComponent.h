@@ -36,7 +36,7 @@ public:
 
 protected: // we are trying to access this property from a subclass so it needs to be protected
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Locked;
 	
 
 private:
