@@ -32,6 +32,7 @@ public:
 	void Fire();
 
 protected: // can't be proviate because we will need to access it using a UProperty later
+	UPROPERTY(BlueprintReadOnly, Category = "Input")
 	UTankAimingComponent * TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = Input)
