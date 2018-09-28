@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "../Public/TankPlayerController.h"
 #include "Engine/World.h"
-#include "Tank.h"
 #include "../Public/TankAimingComponent.h"
 
 #define OUT
@@ -10,24 +9,11 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	
+	if (!ensure(AimingComponent)) { return; }	
 
-	if (AimingComponent)
-	{
-		FoundAimingComponent(AimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Controller C++: Cannot find Aiming Component at Begin Play"));
-	}
-}
-
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	//this will return the pawn the player controller is currently possesing
-	//should return the actual tank that's being possessed
-	return Cast<ATank>(GetPawn());
-
+	FoundAimingComponent(AimingComponent);
 }
 
 void ATankPlayerController::PlayerTick(float DeltaTime)
@@ -40,13 +26,15 @@ void ATankPlayerController::PlayerTick(float DeltaTime)
 void ATankPlayerController::AimTowardsCrossHair()
 {
 	// we check becuz it makes no sense to check aim unless we are controlling a tank
-	if (!GetControlledTank()) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // out parameter
 	if(GetSightRayHitLocation(HitLocation)) // has "side-effect", is going to line trace
 	{	
 		//passes the hit location to the tank
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 

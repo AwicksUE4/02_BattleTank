@@ -2,14 +2,14 @@
 
 #include "../Public/TankAIController.h"
 #include "Engine/World.h"
-#include "../Public/Tank.h"
-
+#include "../Public/TankAimingComponent.h"
+// depends on movement component via pathfinding system
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto ControlledTank = Cast<ATank>(GetPawn());
+	/*auto ControlledTank = Cast<ATank>(GetPawn());
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AIController not posessing tank"));
@@ -17,23 +17,26 @@ void ATankAIController::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Aicontroller is posessing %s"), *(ControlledTank->GetName()));
-	}
+	}*/
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto ControlledTank = Cast<ATank>(GetPawn());
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
 
-	if (PlayerTank && ControlledTank)
-	{
-		MoveToActor(PlayerTank, AcceptanceRadius); // TODO Check radius is in cm
+	if (!ensure(PlayerTank && ControlledTank)) { return; }		
 
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+	MoveToActor(PlayerTank, AcceptanceRadius); // TODO Check radius is in cm
 
-		ControlledTank->Fire();
-	}
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (!ensure(AimingComponent)) { return; }
+
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
+
+	//ControlledTank->Fire(); // TODO FIX FIRE
 }
 

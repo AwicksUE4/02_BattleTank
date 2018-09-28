@@ -9,10 +9,9 @@
 
 //forward declaration
 class UTankBarrel; 
-class UTankAimingComponent;
 class UTankTurret;
 class AProjectile;
-class UTankMovementComponent;
+
 
 UCLASS()
 class BATTLETANKPROJ_API ATank : public APawn
@@ -20,17 +19,13 @@ class BATTLETANKPROJ_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	void AimAt(FVector HitLocation);
+	
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 protected: // can't be proviate because we will need to access it using a UProperty later
-	UPROPERTY(BlueprintReadOnly, Category = "Input")
-	UTankAimingComponent * TankAimingComponent = nullptr;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Input")
-	UTankMovementComponent* TankMovementComponent = nullptr;
+	
 	
 private:
 	// Sets default values for this pawn's properties
@@ -38,6 +33,7 @@ private:
 
 	virtual void BeginPlay() override;
 
+	// TODO remove once firing is moved to aiming
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed = 4000; // 1000 m/s because units are centimeters
 
