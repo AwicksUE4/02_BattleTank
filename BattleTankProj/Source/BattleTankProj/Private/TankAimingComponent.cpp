@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Public/TankBarrel.h"
 #include "../Public/TankTurret.h"
+#include "../Public/Projectile.h"
 
 
 
@@ -71,5 +72,24 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	} 	
 }
 
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+
+	bool isReloaded = FPlatformTime::Seconds() - LastFireTime > FireReloadTimeInSeconds;
+
+	if (isReloaded)
+	{
+		//spawn a projectile at the socket location on the barrel
+		auto SpawnLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		auto SpawnRotation = Barrel->GetSocketRotation(FName("Projectile"));
+
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
+	}
+}
 
 
