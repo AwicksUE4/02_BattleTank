@@ -79,7 +79,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator; //need to work out the difference	
 	
 	Barrel->Elevate(DeltaRotator.Pitch); 
-	Turret->Rotate(DeltaRotator.Yaw);
+
+	if (DeltaRotator.Yaw > 180)
+		Turret->Rotate(-DeltaRotator.Yaw);
+	else 
+		Turret->Rotate(FMath::Abs(DeltaRotator.Yaw));
 }
 
 

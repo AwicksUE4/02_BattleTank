@@ -33,7 +33,9 @@ void ATankPlayerController::AimTowardsCrossHair()
 	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // out parameter
-	if(GetSightRayHitLocation(HitLocation)) // has "side-effect", is going to line trace
+	auto bGotHitLocation = GetSightRayHitLocation(HitLocation);
+	UE_LOG(LogTemp, Warning, TEXT("Got Hit Location is %i"), bGotHitLocation);
+	if(bGotHitLocation) // has "side-effect", is going to line trace
 	{	
 		//passes the hit location to the tank
 		AimingComponent->AimAt(HitLocation);
@@ -59,10 +61,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		// line trace along the direction (look direction), and see what we hit
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const 
