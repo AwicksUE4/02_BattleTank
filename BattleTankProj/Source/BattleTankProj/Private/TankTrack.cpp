@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../Public/TankTrack.h"
+#include "Engine/World.h"
 
 void UTankTrack::BeginPlay()
 {
@@ -14,19 +15,28 @@ void UTankTrack::BeginPlay()
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.bStartWithTickEnabled = true;
-	//OnComponentHit
+
 }
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("I am hitting"));
+	// DrIVE THE tracks
+	DriveTrack();
+	//apply a side ways force
+	ApplySidewaysForce();
+
+	//reset throttle
+	CurrentThrottle = 0;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	auto ForceApplied = GetForwardVector() * Throttle * MaxTrackDrivingForce;
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
+}
+
+void UTankTrack::DriveTrack()
+{
+	auto ForceApplied = GetForwardVector() * CurrentThrottle * MaxTrackDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	// want to add a force to the root component (which is the tank)
 	// a static mesh component is also a USceneComponent
@@ -34,10 +44,12 @@ void UTankTrack::SetThrottle(float Throttle)
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+
+void UTankTrack::ApplySidewaysForce()
+{
+	
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	//calculate the slippage speed (dot product)
 	// the component of speed in the tank "right" direction, if no slippage, then value is zero, if sliding entirely, value should speed of tank, us cos of angle between velicyt of tank (direction its' goine ine) and slideways right vector
 	// if it is going perfectly sideways, then the cosine between 2 angles is 1, if it's going forward, then angle is 90 degrees which means 
@@ -46,7 +58,7 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 	auto TankRightV = GetRightVector();
 
 	auto SlippageSpeed = FVector::DotProduct(TankVelocity, TankRightV);
-	
+
 	//work out the required acceleration this frame to correct (if we are moving sideways 10cm a second, then 
 	//acceleration is speed over time, determine direction of acceleration
 	//use the minus because we want to apply the acceleration in the opposite direction
