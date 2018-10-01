@@ -13,6 +13,10 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class BATTLETANKPROJ_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 	
 public: 
 	UFUNCTION(BlueprintCallable, Category = "Input")
@@ -24,5 +28,12 @@ public:
 	// get wi/in a factor of 10
 	UPROPERTY(EditDefaultsOnly)
 	float MaxTrackDrivingForce = 40000000; // assume 40 tons tanks and 1g acceleration -> 400,000 newtowwns
+
+private:
+	UTankTrack();	
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+	
 
 };

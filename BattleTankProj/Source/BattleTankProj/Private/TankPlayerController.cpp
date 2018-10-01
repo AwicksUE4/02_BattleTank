@@ -25,6 +25,8 @@ void ATankPlayerController::PlayerTick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
+	if (!GetPawn()) { return; } // don't do an ensure here because we possess the pawn at run time
+
 	// we check becuz it makes no sense to check aim unless we are controlling a tank
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
