@@ -6,6 +6,8 @@ void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
 
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+
 	UE_LOG(LogTemp, Warning, TEXT("UTank Track BeginPlay"));
 }
 
@@ -14,6 +16,12 @@ UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
+	//OnComponentHit
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("I am hitting"));
 }
 
 void UTankTrack::SetThrottle(float Throttle)
