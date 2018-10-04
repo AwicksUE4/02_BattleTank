@@ -38,6 +38,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	EFiringState GetFiringState() const; //const because we don't want this method changing any of the member variables
+
 protected: // we are trying to access this property from a subclass so it needs to be protected
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;

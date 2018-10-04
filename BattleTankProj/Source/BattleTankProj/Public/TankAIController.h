@@ -23,6 +23,6 @@ public:
 
 private:
 	
-
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	float AcceptanceRadius = 3000;
 };

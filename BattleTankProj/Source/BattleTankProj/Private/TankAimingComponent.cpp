@@ -35,6 +35,10 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
@@ -83,7 +87,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	if (DeltaRotator.Yaw > 180)
 		Turret->Rotate(-DeltaRotator.Yaw);
 	else 
-		Turret->Rotate(FMath::Abs(DeltaRotator.Yaw));
+		Turret->Rotate(DeltaRotator.Yaw);
 }
 
 
@@ -136,5 +140,6 @@ void UTankAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
+
 
 
